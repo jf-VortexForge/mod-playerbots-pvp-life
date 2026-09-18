@@ -24,7 +24,6 @@
 #include "Opcodes.h"
 #include "Player.h"
 #include "PlayerbotAI.h"
-#include "PlayerbotsMgr.h"
 #include "Playerbots.h"
 #include "PositionValue.h"
 #include "Random.h"
