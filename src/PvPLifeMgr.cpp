@@ -24,6 +24,7 @@
 #include "Opcodes.h"
 #include "Player.h"
 #include "PlayerbotAI.h"
+#include "PlayerbotsMgr.h"
 #include "Playerbots.h"
 #include "PositionValue.h"
 #include "Random.h"
@@ -461,7 +462,7 @@ namespace PvPLife
     {
         if (!player || !player->GetSession())
             return false;
-        return ::IsRealPlayer(player);
+        return !sPlayerbotsMgr.GetPlayerbotAI(player);
     }
 
     bool Manager::IsSafeBot(Player* player) const
@@ -474,7 +475,7 @@ namespace PvPLife
         if (IsLifeBotReserved(player->GetGUID().GetCounter()))
             return false;
         PlayerbotAI* ai = GET_PLAYERBOT_AI(player);
-        if (!ai || ::IsRealPlayer(player) || ai->HasGameClientMaster())
+        if (!ai || ai->IsRealPlayer() || (ai->GetMaster() && sPlayerbotsMgr.GetPlayerbotAI(ai->GetMaster()) && sPlayerbotsMgr.GetPlayerbotAI(ai->GetMaster())->IsRealPlayer()))
             return false;
         if (_respectPlayerbotActivity && !ai->AllowActivity(ALL_ACTIVITY))
             return false;
